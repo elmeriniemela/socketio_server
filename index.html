@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.socket.io/socket.io-1.0.0.js"></script>
+    <script>
+        var socket = io('http://localhost');
+
+        socket.on('connect', function () {
+            console.log("Connected");
+        });
+
+        socket.on('disconnect', function () {
+            console.log("Disconnected");
+        });
+
+        function response_handler(data) {
+            console.log(data);
+            document.getElementById('response').innerHTML = data
+        }
+
+
+        socket.on('response', response_handler);
+        function send_data(data) {
+            socket.emit('message', data);
+        }
+    </script>
+</head>
+
+<h1>Hello!</h1>
+
+<label for="response">Latest message:</label>
+<div id="response"> </div>
+<label for="message">Send message:</label>
+<input type="text" id="message" name="message">
+<br />
+<button onclick="send_data(document.getElementById('message').value)">
+    Send
+</button>
+
+
+</html>
